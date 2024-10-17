@@ -27,16 +27,16 @@
     <div class="p-4">
     <ul class="nav nav-pills d-flex justify-content-between">
         <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="../index.php">Inicio</a>
+            <a class="nav-link <?=  $psgina == "inicio" ? "active ":" " ?> " aria-current="page" href="../index.php">Inicio</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="../proyectos.php">Proyectos</a>
+            <a class="nav-link" <?=  $psgina == "inicio" ? "active ":" " ?> href="../proyectos.php">Proyectos</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="../contacto.php">Contactos</a>
+            <a class="nav-link" <?=  $psgina == "inicio" ? "active ":" " ?> href="../contacto.php">Contactos</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link " href="../sobremi.php">Sobre Mi</a>
+            <a class="nav-link "  <?=  $psgina == "inicio" ? "active ":" " ?> href="../sobremi.php">Sobre Mi</a>
         </li>
     </ul>
     </div>
