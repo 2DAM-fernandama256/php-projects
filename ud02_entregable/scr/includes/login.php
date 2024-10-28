@@ -26,5 +26,19 @@
             <button type="submit" class="btn btn-primary w-100">Login</button>
         </form>
     </div>
+
+    <?php
+    if ($_SERVER["REQUEST_METHOD"=="POST"]){
+        $nombre = $_REQUEST["username"];
+        $contrasena = $_REQUEST["password"];
+        $nombre1="fernando";
+        $contrasena1="famajim030";
+
+        if ($nombre!=$nombre1 || $contrasena!=$contrasena2){
+            echo "<div class='alert alert-danger mt-4 text-center' role='alert'>usuario o contraseña incorrecto</div>";
+          }
+    
+        }
+    ?>
 </body>
 </html>
