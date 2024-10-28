@@ -26,18 +26,18 @@
 
     <div class="p-4">
     <ul class="nav nav-pills d-flex justify-content-between">
-        <li class="nav-item">
-            <a class="nav-link <?=  $psgina == "inicio" ? "active ":" " ?> " aria-current="page" href="../index.php">Inicio</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" <?=  $psgina == "inicio" ? "active ":" " ?> href="../proyectos.php">Proyectos</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" <?=  $psgina == "inicio" ? "active ":" " ?> href="../contacto.php">Contactos</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link "  <?=  $psgina == "inicio" ? "active ":" " ?> href="../sobremi.php">Sobre Mi</a>
-        </li>
+    <li class="nav-item">
+                <a class="nav-link <?=  $pagina == 'index' ? 'active' : '' ?>" aria-current="page" href="../src/index.php">Inicio</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link <?=  $pagina == 'proyectos' ? 'active' : '' ?>" href="../src/proyectos.php">Proyectos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link <?=  $pagina == 'contacto' ? 'active' : '' ?>" href="../src/contacto.php">Contactos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link <?=  $pagina == 'sobremi' ? 'active' : '' ?>" href="../src/sobremi.php">Sobre Mi</a>
+            </li>
     </ul>
     </div>
 </body>
