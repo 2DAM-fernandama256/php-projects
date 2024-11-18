@@ -1,44 +1,21 @@
 <?php
 session_start();
 
-// Verificación de inicio de sesión
+// Verificación de sesión
 if (!isset($_SESSION['login'])) {
     header('Location: ./login.php');
     exit;
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Galería de Imágenes</title>
-    <!-- si no le cambio esto no se ven las flechitas del carrusel-->
-    <style>
-        .carousel-control-prev-icon,
-        .carousel-control-next-icon {
-            background-color: black;
-        }
-    </style>
-</head>
+<?php
+    $pagina = "galeria";
+    require './includes/header.php';
+    ?>
 
 <body>
-
-    <div class="container text-center mb-4">
-        <div class="d-flex justify-content-center align-items-center bg-custom py-3">
-            <img src="img/martinez.png" class="rounded-circle me-3" width="50" height="50" alt="Foto de perfil">
-            <h1 class="mb-0">Galería</h1>
-        </div>
-    </div>
-
-    <?php
-    $pagina = "excursiones";
-    require 'includes/header.php';
-    ?>
-    <h1 class="text-center mb-4 p-4">Excursiones</h1>
-    <?php
+    <br>
+<?php
     // Carpeta de imágenes
     $directorio = 'carrusel/';
 
@@ -86,21 +63,25 @@ if (!isset($_SESSION['login'])) {
                 <?php endforeach; ?>
             </div>
                 <!--mostrar imagenes de la carpeta-->
-            <div class="carousel-inner">
+                <div class="row">
                 <?php foreach ($imagenes as $index => $imagen): ?>
 
-                    <div class="card" style="width: 18rem; <?php echo $index === 0 ? 'active' : ''; ?>">
+                    <div class="card col3" style="width: 18rem;">
                         <img src="<?php echo $imagen; ?>" class="card-img-top" alt="<?php echo $imagen; ?>">
                     <div class="card-body">
-
+                        <form action="galeria.php" method="post">
+                        <button type="button" class="btn btn-danger" name="eliminar">eliminar</button>
+                        <?php if(isset($_POST['eliminar'])) {
+                            if(unlink($imagen)) {
+                                echo "eliminada";
+                            } else{echo "no";}
+                         }?>
+                        </form>
                      </div>
                 </div>
                 <?php endforeach; ?>
             </div>
         </div>
     </div>
-    </div>
 
 </body>
-
-</html>
