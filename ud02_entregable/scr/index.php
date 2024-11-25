@@ -37,7 +37,7 @@ if (isset($_POST['buscar'])) {
 }
 
 // Ruta del directorio de carga
-$uploadDir = __DIR__ . '/src/files_loaded/';
+$uploadDir = __DIR__ . '/src/detalles_eventos/';
 if (!file_exists($uploadDir)) {
     mkdir($uploadDir, 0777, true);
 }
@@ -59,8 +59,8 @@ if (isset($_POST['descargar_todo'])) {
 }
 
 // Descargar un solo alumno
-if (isset($_POST['export_single']) && isset($_POST['alumno_id'])) {
-    $alumno_id = $_POST['alumno_id'];
+if (isset($_POST['export_single']) && isset($_POST['id'])) {
+    $alumno_id = $_POST['id'];
     foreach ($alumnos as $alumno) {
         if ($alumno['id'] === $alumno_id) {
             $filePath = $uploadDir . "alumno_{$alumno_id}.txt";
@@ -141,15 +141,9 @@ if (isset($_POST['export_single']) && isset($_POST['alumno_id'])) {
                     <td><?= htmlspecialchars($alumno['curso']) ?></td>
                     <td>
                         <form method="post" class="d-inline">
-                            <input type="hidden" name="alumno_id" value="<?= htmlspecialchars($alumno['id']) ?>">
+                            <input type="hidden" name="id" value="<?= htmlspecialchars($alumno['id']) ?>">
                             <button type="submit" name="export_single" class="btn btn-info">
-                                <!-- Icono SVG -->
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-download" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                    <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
-                                    <path d="M7 11l5 5l5 -5" />
-                                    <path d="M12 4l0 12" />
-                                </svg>
+                                detalles
                             </button>
                         </form>
                     </td>
