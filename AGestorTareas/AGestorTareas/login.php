@@ -13,7 +13,7 @@ session_start();
 require './includes/data.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST["logout"])&& isset($_POST["username"])) {
 
-    $array_usuarios = getUsers($db);
+    $array_usuarios = getUsers($bd);
     //session_start();
 
     $username = $_POST["username"];
@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST["logout"])&& isset($_P
     $notFound = false;
     foreach ($array_usuarios as $user) {
         // Verificar credenciales
-        if ($username == $user['email'] && password_verify($password, $user['contraseña'])) {
+        if ($username == $user['nombre'] && password_verify($password, $user['contraseña'])) {
             $_SESSION['username'] = $username;
             $_SESSION['password'] = $password;
             $_SESSION['id_user'] = $user['id'];
@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST["logout"])&& isset($_P
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card p-4 shadow-sm">
-                    <form action="https://educacionadistancia.juntadeandalucia.es/centros/sevilla/pluginfile.php/1065391/mod_folder/content/0/login.php" method="POST">
+                    <form action="login.php" method="POST">
                         <div class="mb-3">
                             <label for="username" class="form-label">Nombre de Usuario</label>
                             <input type="text" class="form-control" id="username" name="username" placeholder="Introduce tu nombre de usuario" required>
@@ -68,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST["logout"])&& isset($_P
                         <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
 
                     </form>
-                    <form action="https://educacionadistancia.juntadeandalucia.es/centros/sevilla/pluginfile.php/1065391/mod_folder/content/0/registro.php" method="POST" class="d-flex justify-content-center m-2">
+                    <form action="registro.php" method="POST" class="d-flex justify-content-center m-2">
                         <button type="submit" class="btn btn-warning">Registrarme</button>
                     </form>
                 </div>

@@ -52,7 +52,7 @@ if (isset($_POST["registro"])) {
     if (count($errores) == 0) {
         //INSERTAR USUARIO EN LA TABLA DE USUARIOS DE LA BB
         
-        $check_registro = guardarNuevoUsuario($nombre, $email, $password, $db);       
+        $check_registro = guardarNuevoUsuario($nombre, $email, $password, $bd);       
         if ($check_registro){
             header("login.php");
         }
@@ -88,7 +88,7 @@ if (isset($_POST["registro"])) {
                         <button name="registro" type="submit" class="btn btn-primary w-100">Registrarme</button>
 
                     </form>
-                    <form action="https://educacionadistancia.juntadeandalucia.es/centros/sevilla/pluginfile.php/1065391/mod_folder/content/0/login.php" method="POST" class="d-flex justify-content-center m-2">
+                    <form action="login.php" method="POST" class="d-flex justify-content-center m-2">
                         <button type="submit" class="btn btn-warning">Iniciar sesión</button>
                     </form>
                 </div>
