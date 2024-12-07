@@ -1,6 +1,6 @@
 <?php
 require 'conexion.php';
-
+//funcion para recoger a los usuarios
 function getUsers($db){
     $sql="SELECT nombre_usuario, email, password, is_admin From usuarios";
     $usuarios = mysqli_query($db, $sql);
@@ -13,7 +13,7 @@ function getUsers($db){
     }
     return $resultado;
 }
-
+//funcion para recoger las reservas de cada usuario 
 function getReservas($db, $nombreUsuario) {
 	$sql = "SELECT l.titulo, r.fecha_reserva
     FROM libros l JOIN reservas r ON l.id_libro = r.id_libro 

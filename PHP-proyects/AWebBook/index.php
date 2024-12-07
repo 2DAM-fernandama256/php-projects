@@ -1,25 +1,23 @@
 <?php
-
+//conexiones 
 require './includes/header.php';
-require './includes/data.php'; // Conexión a la base de datos y funciones
+require './includes/data.php'; 
 
-// Verificar si se envió el formulario de cierre de sesión
+// cierre de sesion
 if (isset($_POST['logout']) && $_POST['logout'] === 'salir') {
-    // Destruir la sesión
     session_unset();
     session_destroy();
-    // Reiniciar la sesión para mantener al usuario en el index sin datos de sesión
 }
-
+//categorias
 $sql_categorias = "SELECT id_categoria, nombre FROM categorias";
 $resultado_categorias = mysqli_query($conn, $sql_categorias);
 
-// Obtener libros con o sin filtro
 $where_clause = "";
 if (isset($_GET['categoria']) && !empty($_GET['categoria'])) {
     $id_categoria = intval($_GET['categoria']);
     $where_clause = "WHERE l.id_categoria = $id_categoria";
 }
+//buscar libros
 
 $sql_libros = "SELECT l.id_libro, l.titulo, l.autor, l.id_categoria, l.disponible, l.imagen, c.nombre AS categoria_nombre 
                FROM libros l 
@@ -27,31 +25,30 @@ $sql_libros = "SELECT l.id_libro, l.titulo, l.autor, l.id_categoria, l.disponibl
                $where_clause";
 $resultado_libros = mysqli_query($conn, $sql_libros);
 
-// Obtener reservas del usuario
+// obtener reservas de usuario
 $contadorTablaReservas = 0;
 $reservasUsuarioActual = array();
 if (isset($_SESSION['username']) && $_SESSION['username'] != "admin")
     $reservasUsuarioActual = getReservas($conn, $_SESSION['username']);
 
-// Manejar la reserva de un libro
+// manejo reserva libro
 if (isset($_POST['reservar']) && isset($_SESSION['id_usuario'])) {
     $id_libro = $_POST['id_libro'];
     $id_usuario = $_SESSION['id_usuario'];
 
-    // Verificar si el libro está disponible antes de realizar la reserva
+    // mirar si el libro esta disponible antes de la reserva 
     $sql_check_libro = "SELECT disponible FROM libros WHERE id_libro = $id_libro";
     $resultado_libro = mysqli_query($conn, $sql_check_libro);
     $libro = mysqli_fetch_assoc($resultado_libro);
 
     if ($libro['disponible'] == 1) {
-        // Realizar la reserva
+        // hacer reserva
         $sql_reserva = "INSERT INTO reservas (id_usuario, id_libro, fecha_reserva) VALUES ($id_usuario, $id_libro, NOW())";
         if (mysqli_query($conn, $sql_reserva)) {
-            // Actualizar la disponibilidad del libro
+            // actualizar
             $sql_actualizar_libro = "UPDATE libros SET disponible = 0 WHERE id_libro = $id_libro";
             mysqli_query($conn, $sql_actualizar_libro);
 
-            // **Actualizar las reservas del usuario inmediatamente después de hacer la reserva**
             $sql_reservas = "SELECT r.id_reserva, r.fecha_reserva, l.titulo, l.autor 
                              FROM reservas r
                              INNER JOIN libros l ON r.id_libro = l.id_libro
@@ -66,10 +63,9 @@ if (isset($_POST['reservar']) && isset($_SESSION['id_usuario'])) {
     }
 }
 
-// Eliminar libro
+// eliminar libro
 if (isset($_POST['eliminar_libro'])) {
     $id_libro = $_POST['id_libro'];
-    // Verificar que el libro no esté reservado antes de eliminarlo
     $sql_check_reserva = "SELECT COUNT(*) AS reservas_activas FROM reservas WHERE id_libro = $id_libro";
     $resultado_reserva = mysqli_query($conn, $sql_check_reserva);
     $reserva = mysqli_fetch_assoc($resultado_reserva);
@@ -77,8 +73,8 @@ if (isset($_POST['eliminar_libro'])) {
     if ($reserva['reservas_activas'] == 0) {
         $sql_eliminar = "DELETE FROM libros WHERE id_libro = $id_libro";
         if (mysqli_query($conn, $sql_eliminar)) {
-            // El libro se ha eliminado con éxito
-            header('Location: index.php'); // Recargar página para mostrar los cambios
+            // el libro se ha eliminado con exito
+            header('Location: index.php'); //recargar pagina 
         }
     } else {
         $error_eliminar = "No se puede eliminar el libro porque está reservado.";
@@ -87,17 +83,15 @@ if (isset($_POST['eliminar_libro'])) {
 ?>
 
 <div class="container">
-    <!-- Filtro de Categorías -->
+
     <div class="row m-4 justify-content-between">
         <div class="col-auto">
             <?php if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == 1): ?>
-                <!-- Si es admin, muestra el botón de añadir libro -->
+                <!--si es admin muestra añadir libro si no muestra mis reservas  -->
                 <a href="nuevoLibro.php" class="btn btn-success btn-lg">Añadir Libro</a>
             <?php elseif (isset($_SESSION['logueado']) && $_SESSION['logueado'] === true): ?>
-                <!-- Si está logueado como usuario, muestra el botón de mis reservas -->
                 <button type="button" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#reservasModal">Mis Reservas</button>
             <?php else: ?>
-                <!-- Si no está logueado, muestra el botón de mis reservas para que inicie sesión -->
                 <a href="login.php" class="btn btn-primary btn-lg">Mis Reservas</a>
             <?php endif; ?>
         </div>
@@ -121,7 +115,7 @@ if (isset($_POST['eliminar_libro'])) {
         </div>
     </div>
 
-    <!-- Mostrar libros -->
+    <!-- mostrar libros -->
     <div class="row">
         <?php
         while ($libro = mysqli_fetch_assoc($resultado_libros)) { ?>

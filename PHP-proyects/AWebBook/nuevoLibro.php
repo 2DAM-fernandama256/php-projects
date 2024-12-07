@@ -1,34 +1,30 @@
 <?php
 
 require './includes/header.php';
-require './includes/data.php'; // Conexión a la base de datos
+require './includes/data.php'; 
 
-// Verificar si el usuario está logueado y es admin
+
 if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] != 1) {
-    header("Location: index.php"); // Redirigir a la página principal si no es admin
+    header("Location: index.php");
     exit();
 }
 
-// Variables para almacenar errores
 $error = "";
 $success = "";
 
-// Manejar la creación del libro
+// creacion de libro
 if (isset($_POST['registrar_libro'])) {
     $titulo = $_POST['titulo'];
     $autor = $_POST['autor'];
     $id_categoria = $_POST['id_categoria'];
     $imagen = $_FILES['imagen']['name'];
 
-    // Validación de campos
     if (empty($titulo) || empty($autor) || empty($id_categoria) || empty($imagen)) {
         $error = "Todos los campos son obligatorios.";
     } else {
-        // Mover la imagen al directorio de imágenes
         $target_dir = "img/";
         $target_file = $target_dir . basename($imagen);
         if (move_uploaded_file($_FILES['imagen']['tmp_name'], $target_file)) {
-            // Insertar el nuevo libro en la base de datos
             $sql = "INSERT INTO libros (titulo, autor, id_categoria, imagen, disponible) 
                     VALUES ('$titulo', '$autor', '$id_categoria', '$imagen', 1)";
             if (mysqli_query($conn, $sql)) {
@@ -43,7 +39,7 @@ if (isset($_POST['registrar_libro'])) {
     }
 }
 
-// Obtener las categorías para el formulario
+// categorias 
 $sql_categorias = "SELECT id_categoria, nombre FROM categorias";
 $resultado_categorias = mysqli_query($conn, $sql_categorias);
 
@@ -52,7 +48,6 @@ $resultado_categorias = mysqli_query($conn, $sql_categorias);
 <div class="container mt-4">
     <h2>Registrar Nuevo Libro</h2>
     
-    <!-- Mensajes de error y éxito -->
     <?php if ($error): ?>
         <div class="alert alert-danger" role="alert">
             <?php echo $error; ?>
@@ -65,7 +60,7 @@ $resultado_categorias = mysqli_query($conn, $sql_categorias);
         </div>
     <?php endif; ?>
 
-    <!-- Formulario para registrar un libro -->
+    <!-- formulario de libro -->
     <form method="POST" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="titulo" class="form-label">Título</label>
