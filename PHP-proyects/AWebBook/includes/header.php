@@ -18,16 +18,22 @@
 </head>
 
 <?php
-
+session_start()
 
 ?>
 
 <body>
     <div class="bg-warning-subtle">
-        <form class="d-flex justify-content-end p-2" action="login.php" method="post">
-            <input type='hidden' name='logout' value='salir'>
-            <button type="submit" class="btn btn-dark">Iniciar sesión</button>
-        </form>
+    <form class="d-flex justify-content-end p-2" action="index.php" method="post">
+        <?php if (isset($_SESSION['logueado']) && $_SESSION['logueado'] === true): ?>
+            <!-- Si el usuario está logueado, mostramos el botón de Cerrar sesión -->
+            <input type="hidden" name="logout" value="salir">
+            <button type="submit" class="btn btn-dark">Cerrar sesión</button>
+        <?php else: ?>
+            <!-- Si el usuario NO está logueado, mostramos el botón de Iniciar sesión -->
+            <a href="login.php" class="btn btn-dark">Iniciar sesión</a>
+        <?php endif; ?>
+    </form>
         <header class="cabecera d-flex align-items-center justify-content-center p-4">
             <img src="./img/logo-biblio.png" class="img-fluid logo me-2" alt="Logo IES">
             <h1 class="titulo">Bienvenido a la Biblioteca Virtual</h1>

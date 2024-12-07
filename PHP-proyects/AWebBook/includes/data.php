@@ -14,5 +14,22 @@ function getUsers($db){
     return $resultado;
 }
 
+function getReservas($db, $nombreUsuario) {
+	$sql = "SELECT l.titulo, r.fecha_reserva
+    FROM libros l JOIN reservas r ON l.id_libro = r.id_libro 
+	JOIN usuarios u ON r.id_usuario = u.id_usuario
+    WHERE u.nombre_usuario = '$nombreUsuario';";
+
+	$reservas = mysqli_query($db, $sql);
+	
+	$resultado = array();
+	if ($reservas && mysqli_num_rows($reservas) >= 1) {
+		while ($reserva = mysqli_fetch_assoc($reservas)) 
+			array_push($resultado, $reserva);  
+	}	
+
+	return $resultado;
+}
+
 
 ?>
