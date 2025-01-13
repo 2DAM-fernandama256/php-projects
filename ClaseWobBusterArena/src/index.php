@@ -1,18 +1,22 @@
 <?php
     require './includes/data.php';
     require './includes/header.php';
-
+    
+    //guardda los campeonatos para q salgan todos y todas las provincias
     $array_comp = getCompeticiones($db);
     $array_provincia = getProvincias($db);
 
+    //controla el rol del usuario
     var_export($_SESSION["id_usuario"]);
     $usuario_rol = isset($_SESSION["rol"]) ? $_SESSION["rol"] : "nologued"; 
 
+    //control de inscripcion si ya esta inscrito no puede volver a inscrivirse
     $atleta_inscripciones = [];
     if ($usuario_rol == "atleta") {
         $atleta_inscripciones = getInscripciones($db, $_SESSION["id_usuario"]);
     }
 
+    // dentro del metodo post
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         if (isset($_POST["eliminarCampeonato"])) {
@@ -70,7 +74,7 @@
 <div class="container">      
 
     <div class="row m-4 justify-content-between">
-        <?php if ($usuario_rol == "administrador"): ?>
+        <?php if ($usuario_rol == "administrador"): ?> 
             <div class="col-4 mb-3">
                 <button type="submit" name="editar" data-bs-toggle="modal" data-bs-target="#addCompeticion"
                     class="btn btn-success">
@@ -111,7 +115,7 @@
                 <div class="card-body">
                     <h5 class="card-title"><?= $c["nombre"] ?></h5>
                     <p class="card-text">
-                        <strong>Fecha: </strong><?= $c["fecha"] ?> <br>
+                        <strong>Fecha: </strong> <br>
                         <strong>Lugar: </strong><?= $c["provincia"] ?><br>
                         <strong>Precio: </strong><?= $c["precio"] ?>$
                     </p>
